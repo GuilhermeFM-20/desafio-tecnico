@@ -4,11 +4,13 @@ namespace App\Services;
 
 use App\Enums\States;
 use Illuminate\Support\Facades\Log;
+use NunoMaduro\Collision\Adapters\Phpunit\State;
+USE GuzzleHttp\Exception\ConnectException;
 
 class CitiesByStateService extends Services
 {
     private $endpoint;
-    private $endpoint_ibge;
+    public $endpoint_ibge;
     private $state;
 
     public function __construct()
@@ -18,26 +20,35 @@ class CitiesByStateService extends Services
         $this->state = '';
     }
 
-    public function selectState($state)
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    public function setState($state)
     {
         try{
-            $this->state = States::from($state);
+            if(!in_array($state,States::$values)){
+                throw new \InvalidArgumentException('A sigla do estado é inválida.');
+            }
+            $this->state = $state;
             return $this;
         }catch(\InvalidArgumentException $e){
             Log::warning($e->getMessage());
-            throw new \InvalidArgumentException("A sigla do estado é inválida.");
         }
     }
 
     public function getCitiesByState()
     {   
-        $response = $this->request('GET',$this->endpoint.$this->state);
-
-        if($response['status'] != 200){
-            $response = $this->request('GET',$this->endpoint.$this->state."/municipios");
+        try{
+            $response = $this->request('GET',$this->endpoint.$this->state);
+            return $response['data'];
+        }catch(ConnectException $e){   
+            Log::warning($e->getMessage());
+            $response = $this->request('GET',$this->endpoint_ibge.$this->state."/municipios");
+            return $response['data'];
         }
 
-        return $response['data'];
     }
     
 

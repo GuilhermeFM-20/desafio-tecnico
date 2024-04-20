@@ -11,7 +11,7 @@ class Services
     public function request($method, $endpoint)
     {
         try{
-            $client = new CLient();
+            $client = new Client();
             $response = $client->request($method, $endpoint);
             return ['data' => json_decode($response->getBody()),
                     'status' => $response->getStatusCode()];  
