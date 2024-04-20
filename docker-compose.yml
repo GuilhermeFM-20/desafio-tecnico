@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  php:
+    build: .
+    container_name: php
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "8000:8000"
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=laravel
