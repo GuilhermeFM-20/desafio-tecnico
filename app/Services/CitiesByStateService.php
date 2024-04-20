@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Enums\States;
 use Illuminate\Support\Facades\Log;
-use NunoMaduro\Collision\Adapters\Phpunit\State;
 
 class CitiesByStateService extends Services
 {
