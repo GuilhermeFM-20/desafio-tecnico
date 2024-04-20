@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\States;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Exception\ClientException;
 use NunoMaduro\Collision\Adapters\Phpunit\State;
 USE GuzzleHttp\Exception\ConnectException;
 
@@ -41,11 +42,10 @@ class CitiesByStateService extends Services
     public function getCitiesByState()
     {   
         try{
-            $response = $this->request('GET',$this->endpoint.$this->state);
+            $response = $this->request('GET',"https://brasilapi.com.br/api/isbge/municipios/v1/".$this->state);
             return $response['data'];
-        }catch(ConnectException $e){   
-            Log::warning($e->getMessage());
-            $response = $this->request('GET',$this->endpoint_ibge.$this->state."/municipios");
+        }catch(ClientException $e){   
+            $response = $this->request('GET',"https://servicodados.ibge.gov.br/api/v1/localidades/estados/".$this->state."/municipios");
             return $response['data'];
         }
 
