@@ -26,14 +26,15 @@ class GridTest extends TestCase
         Livewire::test(Grid::class)
         ->set('state', 'RN')
         ->call('search')
-        ->assertSee('MOSSORO');
+        ->assertSee('Mossoró');
     }
 
-    public function testSelectReturnStates()
+    public function testViewSearchOfPageError()
     {
         Livewire::test(Grid::class)
-        ->call('render')
-        ->assertSet('states', 'RS');
+        ->set('state', 'RS')
+        ->call('search')
+        ->assertDontSee('2408003');
     }
 
 }
