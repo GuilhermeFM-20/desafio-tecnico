@@ -7,7 +7,6 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 use App\Providers\BrasilApiProvider;
 use App\Providers\IBGEApiProvider;
-use Nette\Utils\Paginator;
 
 class CitiesByStateService
 {
@@ -17,12 +16,12 @@ class CitiesByStateService
         $this->state = '';
     }
 
-    public function getState()
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function setState($state)
+    public function setState($state): self
     {
         if(!States::stateExists($state)){
             throw new \InvalidArgumentException('A sigla do estado é inválida.');
