@@ -1,66 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Desafio Técnico - Busca de Municípios
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este projeto visa analisar minha capacidade técnica no uso do framework Laravel para o processo seletivo. Será utilizado o Laravel na versão 11 e o PHP na versão 8. Também será utilizada a biblioteca Livewire para renderizar o SPA do projeto. O projeto é uma API que lista as cidades do estado informado, retornando o nome e código do IBGE usando os providers fornecidos.
 
-## About Laravel
+Providers do projeto: 
+(https://brasilapi.com.br/api/ibge/municipios/v1/RS).
+(https://servicodados.ibge.gov.br/api/v1/localidades/estados/rs/municipios).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnologias Usadas
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Docker
+- Laravel
+- Livewire
+- PHPUnit
+- Guzzle
+- Mysql
+- Bootstrap
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Instalação do Projeto
 
-## Learning Laravel
+1 - Após clonar o projeto, será necessário rodar o container usando `docker compose up -d`
+ Observação: Verificar se as dependências foram instaladas com sucesso, caso contrário, será necessário rodar o comando `docker compose exec -it php sh` para entrar no container e depois rodar o comando `composer install`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2 - Após levantar o container será necessário rodar as migrations do projeto, usando o comando `php artisan migrate` dentro do container
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+3 - Após transformar o arquivo `.env.example` em `.env`, será necessário informar qual será o provider usado.
+    Seleção do provider: 
+    `CITIES_API_PROVIDER=API_BRASIL`: Para usar o API Brasil
+    `CITIES_API_PROVIDER=API_IBGE`: Para usar IBGE
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Rota da API
 
-## Laravel Sponsors
+O projeto possui a rota principal que retorna os municípios do estado informado.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- `GET /api/state/{sigla-estado}`: rota da api que retorna os municípios.
 
-### Premium Partners
+O arquivo de rota da api está organizado com uma estrutura do grupo `state`, permitindo implementar outras funcionalidade para a rotas principal dos estados.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Exemplo de uso das rotas:
 
-## Contributing
+```php
+    Route::prefix('/state')->group(function(){
+        Route::get('/{uf}',CitiesByStateController::class);
+        Route::get('/{uf}/{city}',[CitiesByStateController::class,'searchCity']);
+        ...
+    });
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## SPA do Projeto
 
-## Code of Conduct
+O SPA está exibindo uma tela criada com bootstrap. Usando também o livewire para renderizar o `Grid`, que seria o filtro de busca do estado.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+<img src="https://github.com/GuilhermeFM-20/desafio-tecnico/tree/main/storage/img/SPA.png" width="400">
 
-## Security Vulnerabilities
+Para acessar a rota do SPA basta buscar a URL: `http://localhost:{porta-projeto}/`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+No SPA é possível buscar o estado e visualizar os municípios na tabela.
 
-## License
+## Testes
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Para executar os testes será necessário rodar o comando:
+
+```sh
+    ./vendor/bin/phpunit
+```
+
+Para executar um teste unitário específico, precisa filtrar o método:
+
+```sh
+    ./vendor/bin/phpunit --filter testeExemplo
+```
