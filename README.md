@@ -50,7 +50,7 @@ Exemplo de uso das rotas:
 
 O SPA está exibindo uma tela criada com bootstrap. Usando também o livewire para renderizar o `Grid`, que seria o filtro de busca do estado.
 
-<img src="https://github.com/GuilhermeFM-20/desafio-tecnico/tree/main/storage/SPA.png" width="400">
+<img src="https://raw.githubusercontent.com/GuilhermeFM-20/desafio-tecnico/main/storage/SPA.png" width="400">
 
 Para acessar a rota do SPA basta buscar a URL: `http://localhost:{porta-projeto}/`
 
