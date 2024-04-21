@@ -5,7 +5,6 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Enums\States;
 use App\Services\CitiesByStateService;
-use \Illuminate\Pagination\LengthAwarePaginator;
 
 class Grid extends Component
 {
