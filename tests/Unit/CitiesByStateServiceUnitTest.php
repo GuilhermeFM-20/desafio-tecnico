@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use App\Services\CitiesByStateService;
 
-class CitiesByStateServiceTest extends TestCase
+class CitiesByStateServiceUnitTest extends TestCase
 {
     public function  testExceptionSetState()
     {

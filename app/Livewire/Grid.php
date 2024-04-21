@@ -22,12 +22,16 @@ class Grid extends Component
 
     public function search()
     {
-        $data = new CitiesByStateService();
-        $this->cities = $data->setState($this->state)->getCitiesByState();
+
+        $this->cities = app(CitiesByStateService::class)
+            ->setState($this->state)
+            ->getCitiesByState();
     }
 
     public function render()
     {
-        return view('livewire.grid',['states'=>$this->states]);
+        return view('livewire.grid',[
+            'states'=>$this->states
+        ]);
     }
 }

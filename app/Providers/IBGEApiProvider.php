@@ -16,7 +16,7 @@ class IBGEApiProvider
     public function getCities(string $state): array
     {
         $response = app(Client::class)->get($this->baseUrl.$state."/municipios");
-        $data = json_decode($response->getBody());
+        $data = json_decode($response->getBody(),true);
 
         return $this->parsedData($data); 
     }
