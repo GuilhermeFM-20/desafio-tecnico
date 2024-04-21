@@ -14,8 +14,9 @@
                             <button type="button" wire:click="search" class="input-group-text" id="btn">🔎</button>
                         </div>
                         <select wire:model="state" id=""  class="form-control" aria-describedby="basic-addon1"> 
+                            <option value=""></option>
                             @foreach ( $states as $state )
-                            <option value="{{$state}}">{{$state}}</option>
+                            <option value="{{$state->value}}">{{$state->value}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -41,8 +42,8 @@
                     @if($cities)
                         @foreach ( $cities as $city )
                             <tr>
-                                <th>{{$city->id}}</th>
-                                <th class="esq">{{$city->nome}}</th>
+                                <th>{{$city['ibge_code']}}</th>
+                                <th class="esq">{{$city['name']}}</th>
                             </tr>
                         @endforeach
                     @endif

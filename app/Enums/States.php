@@ -2,36 +2,40 @@
 
 namespace App\Enums;
 
-class States
+enum States: string
 {
-    public static $values = [
-        'AC',
-        'AL',
-        'AP',
-        'AM',
-        'BA',
-        'CE',
-        'DF',
-        'ES',
-        'GO',
-        'MA',
-        'MS',
-        'MT',
-        'MG',
-        'PA',
-        'PB',
-        'PR',
-        'PE',
-        'PI',
-        'RJ',
-        'RN',
-        'RS',
-        'RO',
-        'RR',
-        'SC',
-        'SP',
-        'SE',
-        'TO'
-    ];
+    case AC = 'AC';
+    case AL = 'AL';
+    case AP = 'AP';
+    case AM = 'AM';
+    case BA = 'BA';
+    case CE = 'CE';
+    case DF = 'DF';
+    case ES = 'ES';
+    case GO = 'GO';
+    case MA = 'MA';
+    case MS = 'MS';
+    case MT = 'MT';
+    case MG = 'MG';
+    case PA = 'PA';
+    case PB = 'PB';
+    case PR = 'PR';
+    case RJ = 'RJ';
+    case RN = 'RN';
+    case RS = 'RS';
+    case RO = 'RO';
+    case RR = 'RR';
+    case SC = 'SC';
+    case SP = 'SP';
+    case SE = 'SE';
+    case TO = 'TO';
+
+    public static function stateExists($state): bool
+    {
+        return States::tryFrom($state) !== null;
+    }
+
 }
+
+
 

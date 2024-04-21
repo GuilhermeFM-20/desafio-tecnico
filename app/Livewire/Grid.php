@@ -10,18 +10,19 @@ use \Illuminate\Pagination\LengthAwarePaginator;
 class Grid extends Component
 {
 
-    public $states;
-    public $cities;
-    public $state;
-    public $city ;
+    public array $states;
+    public array $cities;
+    public ?string $state = '';
+    public ?string $city;
+    public int $page;
 
-    public function mount(){
-        $data = new CitiesByStateService();
-        $this->states = States::$values;
-        $this->cities = $data->setState($this->states[0])->getCitiesByState();        
+    public function mount()
+    {
+        $this->states = States::cases();
     }
 
-    public function search(){
+    public function search()
+    {
         $data = new CitiesByStateService();
         $this->cities = $data->setState($this->state)->getCitiesByState();
     }
