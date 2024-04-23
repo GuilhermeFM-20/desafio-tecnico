@@ -8,6 +8,7 @@ services:
     depends_on:
       - mysql
     working_dir: /var/www/html
+    command: php artisan serve --host=0.0.0.0
     volumes:
       - ./:/var/www/html
     ports:
